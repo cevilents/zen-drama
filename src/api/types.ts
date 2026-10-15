@@ -56,7 +56,7 @@ export interface EpisodePlay {
   id: string;
   number: number;
   locked: boolean;
-  /** Ready-to-play URL (via /api/proxy). */
+  /** Ready-to-play URL: a direct CDN URL, or our signed /api/proxy URL (tied to the server's address). */
   url: string;
   type: StreamType;
   qualities: Quality[];

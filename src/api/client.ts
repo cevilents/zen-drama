@@ -116,13 +116,20 @@ function originOf(url: string): string | null {
   return m ? m[1].toLowerCase() : null;
 }
 
+/** A CDN URL the server returned as is (anything but our signed /api/proxy): independent of the server's address. */
+export function isDirectStreamUrl(url: string): boolean {
+  return !url.includes('/api/proxy?');
+}
+
 /**
  * True when an absolute stream URL points at a server origin other than the one the app talks to now,
  * i.e. it was signed before the tunnel moved and the player would hang on a dead host. Only meaningful
  * while the origin is driven by discovery; a pinned/overridden server never moves, so never stale there.
+ * Direct CDN URLs (anything that is not our signed /api/proxy) don't depend on the tunnel, so never stale.
  */
 export function isStaleStreamUrl(url: string): boolean {
   if (useSettings.getState().serverUrl?.trim() || !isDiscoveryActive()) return false;
+  if (isDirectStreamUrl(url)) return false;
   const origin = originOf(url);
   return !!origin && origin !== originOf(getBaseUrl());
 }

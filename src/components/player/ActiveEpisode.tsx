@@ -7,7 +7,7 @@ import { Platform, StyleSheet, View } from 'react-native';
 import Animated, { Easing, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { isStaleStreamUrl } from '@/api/client';
+import { isDirectStreamUrl, isStaleStreamUrl } from '@/api/client';
 import { queryKeys, useEpisode, usePrefetchEpisode } from '@/api/hooks';
 import type { DramaDetail, StreamType } from '@/api/types';
 import { shareDrama } from '@/components/detail/share';
@@ -206,7 +206,8 @@ export function ActiveEpisode({
   }
 
   // A failed (re)fetch with nothing playing yet: the URL we hold is not trustworthy, show the error card.
-  const fetchFailed = !!query.error && (!data || !hasFrames);
+  // A direct CDN URL doesn't depend on the server, so a failed background refetch never condemns it.
+  const fetchFailed = !!query.error && (!data || (!hasFrames && !isDirectStreamUrl(data.url)));
   const blocked = locked || !!videoError || fetchFailed;
   const playing = !paused && !ended && !blocked && !scrubbing;
 

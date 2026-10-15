@@ -6,6 +6,7 @@ import { StyleSheet, View } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import { Easing, useSharedValue, withTiming } from 'react-native-reanimated';
 
+import { isDirectStreamUrl } from '@/api/client';
 import { useEpisode } from '@/api/hooks';
 import type { Drama } from '@/api/types';
 import { PosterImage } from '@/components/drama/PosterImage';
@@ -104,7 +105,8 @@ export function FeedItem({
   }
 
   const videoFailed = !!play?.url && failedUrl === play.url;
-  const fetchFailed = episode.isError;
+  // A direct CDN URL doesn't depend on the server: a failed background refetch doesn't stop it playing.
+  const fetchFailed = episode.isError && !(play?.url && isDirectStreamUrl(play.url));
   const playing = active && screenActive && !paused;
   const canPlay = preload && !!play && !play.locked && !!play.url && !videoFailed && !fetchFailed;
 
