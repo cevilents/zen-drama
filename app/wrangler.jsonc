@@ -1,0 +1,25 @@
+// Cloudflare deploy for the web build: `npx expo export --platform web && npx wrangler deploy`.
+{
+  "name": "zen-drama",
+  "compatibility_date": "2026-10-06",
+  // Only /server.json runs code (worker/index.js); every other path is a static file.
+  "main": "./worker/index.js",
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+    // Expo Router is client-side: unknown paths (/drama/..., /watch/...) must load index.html.
+    "not_found_handling": "single-page-application",
+    // /server.json serves the API pointer; /t counts referral sources; /drama and /watch run the
+    // Worker so it can inject per-drama Open Graph tags for crawlers (the SPA shell is returned
+    // untouched for everyone else).
+    "run_worker_first": ["/server.json", "/t", "/t/*", "/drama/*", "/watch/*"]
+  },
+  // The workers.dev address stays on: APKs read /server.json from it.
+  "workers_dev": true,
+  "routes": [
+    { "pattern": "zendrama.web.id", "custom_domain": true },
+    { "pattern": "www.zendrama.web.id", "custom_domain": true }
+  ],
+  // Current public address of the API server. Update key: `wrangler secret put UPDATE_KEY`.
+  "kv_namespaces": [{ "binding": "SERVER_POINTER", "id": "78f607c113d14458b1248716343dfaf2" }]
+}

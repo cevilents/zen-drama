@@ -1,0 +1,15 @@
+{
+  "name": "zen-drama-server",
+  "version": "1.0.0",
+  "private": true,
+  "description": "API server for the ZEN DRAMA short-drama app (Anichin aggregator + ReelShort web fallback + media proxy)",
+  "type": "module",
+  "main": "index.mjs",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node index.mjs",
+    "dev": "node --watch index.mjs"
+  }
+}

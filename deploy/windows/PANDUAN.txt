@@ -1,0 +1,17 @@
+ZEN DRAMA Server untuk Windows
+==============================
+
+Cara pakai: klik dua kali ZEN-DRAMA-SERVER.bat, pilih "Yes". Selesai.
+
+- Server dipasang di C:\ZenDrama dan menyala sendiri setiap Windows hidup.
+- Alamat server otomatis dikirim ke aplikasi dan web ZEN DRAMA.
+- Komputer harus tetap menyala dan tersambung internet.
+
+Klik dua kali file yang sama lagi untuk menu: perbarui, lihat status, restart,
+matikan server, nyalakan server, atau hapus server.
+
+Mematikan server: pilih "Matikan server". Server berhenti dan TIDAK menyala lagi,
+termasuk setelah Windows restart, sampai kamu pilih "Nyalakan server".
+(Menutup jendela .bat tidak mematikan server; server jalan di latar belakang.)
+
+Kalau Windows menampilkan "Windows protected your PC": klik "More info" lalu "Run anyway".

@@ -1,0 +1,14 @@
+# Cloudflare static-asset headers (copied into dist/ by `expo export`).
+
+# The service worker must always be re-fetched, otherwise a stale one can pin old builds.
+/sw.js
+  Cache-Control: no-cache
+
+# The manifest may change between builds; keep it fresh for an hour.
+/manifest.json
+  Cache-Control: public, max-age=3600
+
+# Some poster CDNs (GoodShort's acfs1.goodreels.com) answer 403 when the Referer is a *.workers.dev
+# page, so the web app sends no Referer to other sites at all.
+/*
+  Referrer-Policy: no-referrer
